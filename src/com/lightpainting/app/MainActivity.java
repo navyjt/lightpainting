@@ -1,16 +1,43 @@
 package com.lightpainting.app;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.Window;
+import android.widget.*;
 
 public class MainActivity extends Activity {
+	
+	private EditText edittextstring;
+	private Button startShowActivity;
+
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);//使应用程序无标题栏
 		setContentView(R.layout.activity_main);
+		
+		startShowActivity = (Button) findViewById(R.id.start_button);
+		edittextstring = (EditText) findViewById(R.id.edit_text);
+
+		startShowActivity.setOnClickListener(new OnClickListener()
+		{
+				//按钮点击事件
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(MainActivity.this,startShowActivity.class);
+				String data = edittextstring.getText().toString();
+				intent.putExtra("showtext",data);
+				startActivity(intent);
+			}
+			
+		});
+		
 	}
 
 	@Override
