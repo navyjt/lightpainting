@@ -1,28 +1,51 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-   
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:id="@+id/root">
+    android:stretchColumns="1" >
  
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal|center"
-        android:minLines="3"
-        android:text="@string/description" />
-    
-    <EditText
-        android:id="@+id/edit_text"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/edittexthint" />
-    
-    <Button
-        android:id="@+id/start_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="@string/start_button" />
 
-</LinearLayout>
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center_horizontal|center"
+	        android:minLines="3"
+	        android:gravity="center"
+	        android:text="@string/description" />
+
+    
+    
+
+	    <EditText
+	        android:id="@+id/edit_text"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content"
+	        android:hint="@string/edittexthint" />
+
+        
+        
+    <TableRow>
+       	<TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:text="@string/setfont" />
+	    <SeekBar
+	        android:id="@+id/seekBarFont"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:max="200"
+	        android:progress="100"/>
+    </TableRow>
+    
+    
+
+	    <Button
+	        android:id="@+id/start_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:text="@string/start_button" />
+
+
+
+</TableLayout>

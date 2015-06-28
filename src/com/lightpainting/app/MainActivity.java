@@ -9,11 +9,14 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
 import android.widget.*;
+import android.widget.SeekBar.OnSeekBarChangeListener;
 
 public class MainActivity extends Activity {
 	
 	private EditText edittextstring;
 	private Button startShowActivity;
+	private SeekBar seekbarsize;
+	private String fontsize = "100";
 
 
 	@Override
@@ -24,6 +27,34 @@ public class MainActivity extends Activity {
 		
 		startShowActivity = (Button) findViewById(R.id.start_button);
 		edittextstring = (EditText) findViewById(R.id.edit_text);
+		seekbarsize = (SeekBar) findViewById(R.id.seekBarFont);
+		
+		seekbarsize.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
+		{
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				
+				fontsize = String.valueOf(progress);
+				// TODO 自动生成的方法存根
+				
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO 自动生成的方法存根
+				
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				// TODO 自动生成的方法存根
+				
+			}
+		
+		}
+		);
 
 		startShowActivity.setOnClickListener(new OnClickListener()
 		{
@@ -33,6 +64,7 @@ public class MainActivity extends Activity {
 				Intent intent = new Intent(MainActivity.this,startShowActivity.class);
 				String data = edittextstring.getText().toString();
 				intent.putExtra("showtext",data);
+				intent.putExtra("fontsize", fontsize);
 				startActivity(intent);
 			}
 			
