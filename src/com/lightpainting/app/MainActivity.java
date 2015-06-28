@@ -16,7 +16,7 @@ public class MainActivity extends Activity {
 	private EditText edittextstring;
 	private Button startShowActivity;
 	private SeekBar seekbarsize;
-	private String fontsize = "100";
+	private String fontsize = "200";
 
 
 	@Override
