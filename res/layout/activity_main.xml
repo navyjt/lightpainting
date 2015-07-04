@@ -8,7 +8,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_gravity="center_horizontal|center"
-	        android:minLines="3"
+	        android:minLines="5"
 	        android:gravity="center"
 	        android:text="@string/description" />
 
@@ -37,8 +37,35 @@
 	        android:progress="200"/>
     </TableRow>
     
-    
+    <TableRow>
+       	<TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:text="@string/speed" />
+	    <SeekBar
+	        android:id="@+id/seekBarspeed"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:max="500"
+	        android:progress="150"/>
+    </TableRow>
 
+    <TableRow>
+       	<TextView
+       	    android:id="@+id/selcolor"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:text="@string/setcolor" />
+	   <Button
+	        android:id="@+id/selcolor_button"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:text="@string/color_button" />
+    </TableRow>
+    
 	    <Button
 	        android:id="@+id/start_button"
 	        android:layout_width="wrap_content"
