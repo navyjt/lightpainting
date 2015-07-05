@@ -28,10 +28,10 @@ public class startShowActivity extends Activity  {
 		Intent intent = getIntent();
 		String data = intent.getStringExtra("showtext");
 		String fontsize = intent.getStringExtra("fontsize");
-		String speed = intent.getStringExtra("speed");
+		int ispeed = intent.getIntExtra("speed",150);
 		String color = intent.getStringExtra("color");
 		ifont = Integer.parseInt(fontsize);
-		ispeed = Integer.parseInt(speed);
+		//ispeed = Integer.parseInt(speed);
 		showtext = (MarqueeText) findViewById(R.id.showtext);
 		showtext.setText(data);
 		showtext.setTextSize(ifont);

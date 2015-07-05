@@ -23,14 +23,17 @@ public class MainActivity extends Activity {
 	
 	private EditText edittextstring;
 	private TextView selcolor;
+	private TextView camerasetuptext;
 	private Button startShowActivity;
 	private Button selColorDialog;
+	private Button cameraSetup;
 	private SeekBar seekbarsize;
 	private SeekBar seekbarspeed;
 	private String fontsize = "200";
-	private String speed = "150";
+	private int time = 15;
+	private int speed;
 	private String strcolor ="#FFFFFF";
-	 private ColorPickerDialog dialog;
+	private ColorPickerDialog dialog;
 
 
 	@Override
@@ -45,6 +48,8 @@ public class MainActivity extends Activity {
 		seekbarspeed = (SeekBar) findViewById(R.id.seekBarspeed);
 		selColorDialog = (Button) findViewById(R.id.selcolor_button);
 		selcolor = (TextView)findViewById(R.id.selcolor);
+		cameraSetup = (Button) findViewById(R.id.camera_setup);
+		camerasetuptext = (TextView)findViewById(R.id.camera_setuptext);
 		
 		seekbarspeed.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
 		{
@@ -52,27 +57,41 @@ public class MainActivity extends Activity {
 			@Override
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
-				speed = String.valueOf(progress);
-				// TODO 自动生成的方法存根
+				time = progress;
+			// TODO 自动生成的方法存根
 				
 			}
 
 			@Override
 			public void onStartTrackingTouch(SeekBar seekBar) {
 				// TODO 自动生成的方法存根
-				Toast.makeText(MainActivity.this, "越往左速度越快！", Toast.LENGTH_SHORT).show();
+				//Toast.makeText(MainActivity.this, "越往左速度越快！", Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				// TODO 自动生成的方法存根
+				Toast.makeText(MainActivity.this, "移动速度设置为"+String.valueOf(time)+"秒", Toast.LENGTH_SHORT).show();
 			
 			}
 		
 		});
 		
+		cameraSetup.setOnClickListener(new OnClickListener()
+		{
+
+			@Override
+			public void onClick(View v) {
+				
+				int iedit = edittextstring.length();
+				
+				speed = time*23/iedit;
+				
+				// TODO 自动生成的方法存根
+				camerasetuptext.setText("相机设置如下：ISO100-200，快门优先，快门速度为"+String.valueOf(time)+"秒");
+			}
 		
-		
+			});
+	
 		seekbarsize.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
 		{
 
@@ -80,7 +99,8 @@ public class MainActivity extends Activity {
 			public void onProgressChanged(SeekBar seekBar, int progress,
 					boolean fromUser) {
 				
-				fontsize = String.valueOf(progress);
+				//此行注释掉，程序里不需要调节文字大小的，使用默认文字大小即可
+				//fontsize = String.valueOf(progress);
 				// TODO 自动生成的方法存根
 				
 			}
@@ -139,7 +159,7 @@ public class MainActivity extends Activity {
 				layout.setOrientation(LinearLayout.VERTICAL);  
 				  
 				final TextView colorText = new TextView(MainActivity.this);  
-				ColorPickerView colorPick = new ColorPickerView(MainActivity.this,Color.parseColor("#FFFFFF"), 0.8,colorText);  
+				ColorPickerView colorPick = new ColorPickerView(MainActivity.this,Color.parseColor("#FFFFFF"), 1.5,colorText);  
 				  
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.MATCH_PARENT);  
 				lp.gravity = Gravity.CENTER_HORIZONTAL;           
@@ -173,11 +193,25 @@ public class MainActivity extends Activity {
 			
 		});
 		
+		
+		
 		startShowActivity.setOnClickListener(new OnClickListener()
 		{
 				//按钮点击事件
 			@Override
 			public void onClick(View v) {
+				
+				int iedit = edittextstring.length();
+				if (iedit >0)
+				{
+					speed = time*23/iedit;
+				}
+				else 
+				{
+					Toast.makeText(MainActivity.this, "请输入需要光绘的文字！", Toast.LENGTH_SHORT).show(); 
+					return;
+				}
+				
 				Intent intent = new Intent(MainActivity.this,startShowActivity.class);
 				String data = edittextstring.getText().toString();
 				intent.putExtra("showtext",data);
@@ -185,7 +219,7 @@ public class MainActivity extends Activity {
 				intent.putExtra("speed", speed);
 				intent.putExtra("color", strcolor);
 				startActivity(intent);
-				Log.d("laomaizi", "启动第二个activity");
+				Log.d("laomaizi", "启动第二个activity"+String.valueOf(speed));
 				//System.out.println("启动第二个activity");
 			}
 			
