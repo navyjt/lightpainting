@@ -13,9 +13,6 @@
 	        android:gravity="center"
 	        android:text="@string/description" />
 
-    
-    
-
 	    <EditText
 	        android:id="@+id/edit_text"
 	        android:layout_width="match_parent"
@@ -51,7 +48,19 @@
 	        android:max="30"
 	        android:progress="15"/>
     </TableRow>
-
+    <TableRow>
+       	<TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="center"
+	        android:text="@string/stoptime" />
+	    <SeekBar
+	        android:id="@+id/seekBarStop"
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:max="15"
+	        android:progress="5"/>
+    </TableRow>
     <TableRow>
        	<TextView
        	    android:id="@+id/selcolor"

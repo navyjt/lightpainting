@@ -29,9 +29,11 @@ public class MainActivity extends Activity {
 	private Button cameraSetup;
 	private SeekBar seekbarsize;
 	private SeekBar seekbarspeed;
+	private SeekBar seekbarstop;
 	private String fontsize = "200";
 	private int time = 15;
 	private int speed;
+	private int iWaitToStop = 5;
 	private String strcolor ="#FFFFFF";
 	private ColorPickerDialog dialog;
 
@@ -50,7 +52,7 @@ public class MainActivity extends Activity {
 		selcolor = (TextView)findViewById(R.id.selcolor);
 		cameraSetup = (Button) findViewById(R.id.camera_setup);
 		camerasetuptext = (TextView)findViewById(R.id.camera_setuptext);
-		
+		seekbarstop = (SeekBar)findViewById(R.id.seekBarStop);
 		seekbarspeed.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
 		{
 
@@ -87,7 +89,7 @@ public class MainActivity extends Activity {
 				speed = time*23/iedit;
 				
 				// TODO 自动生成的方法存根
-				camerasetuptext.setText("相机设置如下：ISO100-200，快门优先，快门速度为"+String.valueOf(time)+"秒");
+				camerasetuptext.setText("相机设置如下：ISO100-200，快门优先，快门速度为"+String.valueOf(time+iWaitToStop)+"秒");
 			}
 		
 			});
@@ -119,6 +121,33 @@ public class MainActivity extends Activity {
 		
 		}
 		);
+		seekbarstop.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
+		{
+
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,
+					boolean fromUser) {
+				iWaitToStop = progress;
+			
+				
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+				// TODO 自动生成的方法存根
+				
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+				
+				Toast.makeText(MainActivity.this, "延迟时间为"+String.valueOf(iWaitToStop)+"秒", Toast.LENGTH_SHORT).show();
+				
+			}
+		
+		}
+		);
+
 
 		/*selColorDialog.setOnClickListener(new OnClickListener()   
 		{	//使用ColorPickerDialog类，不够完美
@@ -204,7 +233,7 @@ public class MainActivity extends Activity {
 				int iedit = edittextstring.length();
 				if (iedit >0)
 				{
-					speed = time*23/iedit;
+					speed = time*30/iedit;
 				}
 				else 
 				{
@@ -218,9 +247,29 @@ public class MainActivity extends Activity {
 				intent.putExtra("fontsize", fontsize);
 				intent.putExtra("speed", speed);
 				intent.putExtra("color", strcolor);
+				
+				int iWaittoBlank = iedit*iWaitToStop/time;
+				intent.putExtra("stop", iWaittoBlank);
+				Log.d("Laomaizi","滚动时间为"+String.valueOf(time)+"字符长度为"+String.valueOf(iedit)+"启动延时"+
+				String.valueOf(iWaitToStop)+"预留空格"+String.valueOf(iWaittoBlank));
+				
+
+				//此处开始显示跑马灯字体的启动画面，设置黑屏图像显示5秒，
+				/*MainActivity.this.setContentView(R.layout.activity_blank);
+				Toast.makeText(MainActivity.this, "页面全黑一下！", Toast.LENGTH_SHORT).show(); 
+				try {
+					Thread.sleep(3000);
+					
+					Toast.makeText(MainActivity.this, "我在睡觉！", Toast.LENGTH_SHORT).show();
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+				*/
 				startActivity(intent);
 				Log.d("laomaizi", "启动第二个activity"+String.valueOf(speed));
-				//System.out.println("启动第二个activity");
+				
 			}
 			
 		});

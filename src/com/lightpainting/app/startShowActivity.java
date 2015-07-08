@@ -11,7 +11,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
 
 public class startShowActivity extends Activity  {
 
@@ -29,21 +28,31 @@ public class startShowActivity extends Activity  {
 		String data = intent.getStringExtra("showtext");
 		String fontsize = intent.getStringExtra("fontsize");
 		int ispeed = intent.getIntExtra("speed",150);
+		int istop = intent.getIntExtra("stop", 1);
+		Log.d("laomaizi", "第二个activity获取延迟时间"+String.valueOf(istop));
+		
+		String allData="";
+		for(int i = 0; i < istop+1 ;i++)
+		{
+			allData +=" ";
+			Log.d("laomaizi", "第二个activity增加空格"+String.valueOf(i));
+		}
+		allData += data;
 		String color = intent.getStringExtra("color");
 		ifont = Integer.parseInt(fontsize);
 		//ispeed = Integer.parseInt(speed);
 		showtext = (MarqueeText) findViewById(R.id.showtext);
-		showtext.setText(data);
+		showtext.setText(allData);
+		
 		showtext.setTextSize(ifont);
 		showtext.setTextColor(Color.parseColor(color));
-		Log.d("laomaizi", "第二个activity启动成功");
+		Log.d("laomaizi", "第二个activity启动成功"+allData+"speed is "+String.valueOf(ispeed));
 		start(showtext,ispeed);
 	}
 	
 	public boolean onTouchEvent(MotionEvent e)  {
 		  // TODO Auto-generated method stub
-		Log.d("laomaizi", "第二个activity点击触发");
-		((Activity) this).finish();
+			((Activity) this).finish();
 		  // Toast.makeText(this, "DOWN " + e.getAction(), Toast.LENGTH_SHORT).show(); 
 		 return true; 
 	}

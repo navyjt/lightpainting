@@ -14,6 +14,7 @@ public class MarqueeText extends TextView implements Runnable {
 	private int textWidth; 
 	private boolean isMeasure = false; 
 	private int delaytime = 0;
+	
 
 	public MarqueeText(Context context) {
 		super(context);
@@ -42,7 +43,7 @@ public class MarqueeText extends TextView implements Runnable {
 		
 		// TODO Auto-generated method stub 
 		super.onDraw(canvas); 
-		
+	
 		if (!isMeasure) 
 		{// 文字宽度只需获取一次就可以了 
 		getTextWidth(); 
@@ -61,6 +62,8 @@ public class MarqueeText extends TextView implements Runnable {
 		@Override 
 	public void run() { 
 			
+
+			
 		currentScrollX += 5;// 滚动速度 
 		scrollTo(currentScrollX, 0);
 		
@@ -76,7 +79,7 @@ public class MarqueeText extends TextView implements Runnable {
 		
 		postDelayed(this, delaytime); 
 		String timestr = Integer.toString(delaytime);
-	//	Log.d("laomaizi","这一步在postdelay后执行"+timestr);
+		//Log.d("laomaizi","文字开始滚动");
 		
 	} 
 		// 开始滚动 
@@ -94,7 +97,7 @@ public class MarqueeText extends TextView implements Runnable {
 		this.removeCallbacks(this); 
 		post(this); 
 		delaytime = i;
-		Log.d("laomaizi","startScrollDelay");
+
 		
 	} 
 		// 停止滚动 
