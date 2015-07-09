@@ -181,6 +181,8 @@ public class FragmentNew extends Fragment {
 			@Override
 			public void onClick(View v) {
 				
+				MainActivity parentActivity = (MainActivity ) getActivity();//调用父activity
+				
 				//View  contentView=  inflater.inflate(R.layout.activity_fragment_new,null);
 				LinearLayout layout = new LinearLayout(getActivity().getApplicationContext());  
 				layout.setOrientation(LinearLayout.VERTICAL);  
@@ -194,7 +196,7 @@ public class FragmentNew extends Fragment {
 				layout.addView(colorText,lp);  
 				Log.d("Laomaizi","准备打开对话框");
 				
-				AlertDialog mAlertDialog =new AlertDialog.Builder(getActivity().getApplicationContext()).setTitle("选择一个颜色").setView(layout)  
+				AlertDialog mAlertDialog =new AlertDialog.Builder(parentActivity).setTitle("选择一个颜色").setView(layout)  
 				.setPositiveButton(getString(R.string.dialog_color_OK), new DialogInterface.OnClickListener() 
 				{  
 				    public void onClick(DialogInterface dialog, int id) {     
