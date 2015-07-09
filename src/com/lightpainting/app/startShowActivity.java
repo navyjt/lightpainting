@@ -1,6 +1,8 @@
 package com.lightpainting.app;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -57,6 +59,8 @@ public class startShowActivity extends Activity  {
 		 return true; 
 	}
 	
+
+
 	
 	public void start(View v,int i) {
 		

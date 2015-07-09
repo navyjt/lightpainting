@@ -1,25 +1,25 @@
 package com.lightpainting.app;
 
 import android.app.ActionBar.LayoutParams;
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
+import android.view.ViewGroup;
 import android.widget.*;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
-public class MainActivity extends Activity {
+public class FragmentNew extends Fragment {
 	
 	private EditText edittextstring;
 	private TextView selcolor;
@@ -37,22 +37,20 @@ public class MainActivity extends Activity {
 	private String strcolor ="#FFFFFF";
 	private ColorPickerDialog dialog;
 
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	        View  contentView=  inflater.inflate(R.layout.activity_fragment_new,null);
+	        startShowActivity = (Button) contentView.findViewById(R.id.start_button);
+			edittextstring = (EditText) contentView.findViewById(R.id.edit_text);
+			seekbarsize = (SeekBar) contentView.findViewById(R.id.seekBarFont);
+			seekbarspeed = (SeekBar) contentView.findViewById(R.id.seekBarspeed);
+			selColorDialog = (Button) contentView.findViewById(R.id.selcolor_button);
+			selcolor = (TextView)contentView.findViewById(R.id.selcolor);
+			cameraSetup = (Button) contentView.findViewById(R.id.camera_setup);
+			camerasetuptext = (TextView)contentView.findViewById(R.id.camera_setuptext);
+			seekbarstop = (SeekBar)contentView.findViewById(R.id.seekBarStop);
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);//使应用程序无标题栏
-		setContentView(R.layout.activity_main);
-		
-		startShowActivity = (Button) findViewById(R.id.start_button);
-		edittextstring = (EditText) findViewById(R.id.edit_text);
-		seekbarsize = (SeekBar) findViewById(R.id.seekBarFont);
-		seekbarspeed = (SeekBar) findViewById(R.id.seekBarspeed);
-		selColorDialog = (Button) findViewById(R.id.selcolor_button);
-		selcolor = (TextView)findViewById(R.id.selcolor);
-		cameraSetup = (Button) findViewById(R.id.camera_setup);
-		camerasetuptext = (TextView)findViewById(R.id.camera_setuptext);
-		seekbarstop = (SeekBar)findViewById(R.id.seekBarStop);
+	  
+
 		seekbarspeed.setOnSeekBarChangeListener(new OnSeekBarChangeListener()
 		{
 
@@ -72,7 +70,7 @@ public class MainActivity extends Activity {
 
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
-				Toast.makeText(MainActivity.this, "移动速度设置为"+String.valueOf(time)+"秒", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity().getApplicationContext(), "移动速度设置为"+String.valueOf(time)+"秒", Toast.LENGTH_SHORT).show();
 			
 			}
 		
@@ -141,7 +139,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onStopTrackingTouch(SeekBar seekBar) {
 				
-				Toast.makeText(MainActivity.this, "延迟时间为"+String.valueOf(iWaitToStop)+"秒", Toast.LENGTH_SHORT).show();
+				Toast.makeText(getActivity().getApplicationContext(), "延迟时间为"+String.valueOf(iWaitToStop)+"秒", Toast.LENGTH_SHORT).show();
 				
 			}
 		
@@ -183,12 +181,12 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				
-				Log.d("Laomaizi","点击按钮");
-				LinearLayout layout = new LinearLayout(MainActivity.this);  
+				//View  contentView=  inflater.inflate(R.layout.activity_fragment_new,null);
+				LinearLayout layout = new LinearLayout(getActivity().getApplicationContext());  
 				layout.setOrientation(LinearLayout.VERTICAL);  
 				  
-				final TextView colorText = new TextView(MainActivity.this);  
-				ColorPickerView colorPick = new ColorPickerView(MainActivity.this,Color.parseColor("#FFFFFF"), 1.5,colorText);  
+				final TextView colorText = new TextView(getActivity().getApplicationContext());  
+				ColorPickerView colorPick = new ColorPickerView(getActivity().getApplicationContext(),Color.parseColor("#FFFFFF"), 1.5,colorText);  
 				  
 				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.MATCH_PARENT);  
 				lp.gravity = Gravity.CENTER_HORIZONTAL;           
@@ -196,7 +194,7 @@ public class MainActivity extends Activity {
 				layout.addView(colorText,lp);  
 				Log.d("Laomaizi","准备打开对话框");
 				
-				AlertDialog mAlertDialog =new AlertDialog.Builder(MainActivity.this).setTitle("选择一个颜色").setView(layout)  
+				AlertDialog mAlertDialog =new AlertDialog.Builder(getActivity().getApplicationContext()).setTitle("选择一个颜色").setView(layout)  
 				.setPositiveButton(getString(R.string.dialog_color_OK), new DialogInterface.OnClickListener() 
 				{  
 				    public void onClick(DialogInterface dialog, int id) {     
@@ -237,11 +235,11 @@ public class MainActivity extends Activity {
 				}
 				else 
 				{
-					Toast.makeText(MainActivity.this, "请输入需要光绘的文字！", Toast.LENGTH_SHORT).show(); 
+					Toast.makeText(getActivity().getApplicationContext(), "请输入需要光绘的文字！", Toast.LENGTH_SHORT).show(); 
 					return;
 				}
 				
-				Intent intent = new Intent(MainActivity.this,startShowActivity.class);
+				Intent intent = new Intent(getActivity().getApplicationContext(),startShowActivity.class);
 				String data = edittextstring.getText().toString();
 				intent.putExtra("showtext",data);
 				intent.putExtra("fontsize", fontsize);
@@ -273,13 +271,13 @@ public class MainActivity extends Activity {
 			}
 			
 		});
-		
+	  return contentView;	
 	}
 
-	@Override
+
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
+		getActivity().getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
 
