@@ -1,13 +1,22 @@
 package com.lightpainting.app;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
+import org.xmlpull.v1.XmlSerializer;
+
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.util.Xml;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -269,6 +278,95 @@ public class FragmentNew extends Fragment {
 				*/
 				startActivity(intent);
 				Log.d("laomaizi", "启动第二个activity"+String.valueOf(speed));
+				
+				//============以下为讲文字保存到历史记录中的代码===
+				 
+				 try {
+					SaveToFavlist(data,fontsize,speed,strcolor);
+				} catch (IOException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+				 
+			}
+
+			private void SaveToFavlist(String data, String fontsize, int speed,
+					String strcolor) throws IOException {
+/*				File newXmlFile = new File(getActivity().getApplicationContext()+"/fav.xml");
+				Log.d("Laomaizi",getActivity().getApplicationContext().toString());
+				if(!newXmlFile.exists()){
+					try {
+						newXmlFile.createNewFile();
+						Log.d("Laomaizi","目录不存在，创建之");
+					} catch (IOException e) {
+						// TODO 自动生成的 catch 块
+						e.printStackTrace();
+					}
+				}*/
+				
+				String local_file = Environment.getExternalStorageDirectory().getAbsolutePath()+"/fav/";
+				File newXmlFile = new File(local_file);
+				if(!newXmlFile.exists()){
+					newXmlFile.mkdirs();
+					Log.d("Laomaizi","不存在目录，创建"+Environment.getExternalStorageDirectory().getAbsolutePath().toString());
+				}
+
+				local_file = newXmlFile.getAbsolutePath()+"/"+"fav.xml";
+				newXmlFile = new File(local_file);
+				try {
+				   if(!newXmlFile.exists()) {
+					   newXmlFile.createNewFile();
+					   Log.d("Laomaizi","已经存在"+Environment.getExternalStorageDirectory().getAbsolutePath().toString());
+				   } 
+				} catch (IOException ex) {
+					ex.printStackTrace();
+				
+					}
+				FileOutputStream fileos = null;
+				
+				try {
+					fileos = new FileOutputStream(newXmlFile);
+				} catch (FileNotFoundException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
+				
+				XmlSerializer serializer = Xml.newSerializer();
+				
+				try {
+					
+					////<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+					serializer.setOutput(fileos,"UTF-8");
+					serializer.startDocument(null, Boolean.valueOf(true));
+					serializer.setFeature("http://xmlpull.org/v1/doc/feature.html#indent-output", true);
+					//<lightpainting xmlns="http://www.laomaizi.com"
+					serializer.startTag(null, "lightpainting");
+					serializer.attribute(null, "xmlns", "http://www.laomaizi.com");
+					serializer.startTag(null, "text");
+					serializer.text(data);
+					serializer.endTag(null, "text");
+					serializer.startTag(null, "fontsize");
+					serializer.text(fontsize);
+					serializer.endTag(null, "fontsize");
+					serializer.startTag(null, "speed");
+					serializer.text(String.valueOf(speed));
+					serializer.endTag(null, "speed");
+					serializer.startTag(null, "color");
+					serializer.text(strcolor);
+					serializer.endTag(null, "color");
+					serializer.endTag(null, "lightpainting");
+					serializer.endDocument();
+					serializer.flush();
+					Log.d("Laomaizi","写入文件完成");
+					fileos.close();
+					
+				} catch (IllegalArgumentException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				} catch (IllegalStateException e) {
+					// TODO 自动生成的 catch 块
+					e.printStackTrace();
+				}
 				
 			}
 			

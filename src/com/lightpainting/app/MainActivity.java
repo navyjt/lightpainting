@@ -52,10 +52,10 @@ public class MainActivity extends FragmentActivity {
         public void onClick(View v) {
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction ft = fm.beginTransaction();
-           // Fragment_Two fragment_two = new Fragment_Two();
-            //ft.replace(R.id.fl_content, fragment_two);
-            //ft.commit();
-           // setButton(v);
+            FavList favlist = new FavList();
+            ft.replace(R.id.fl_content, favlist);
+            ft.commit();
+            setButton(v);
 
         }
     });
