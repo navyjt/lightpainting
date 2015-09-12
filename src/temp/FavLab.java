@@ -1,4 +1,5 @@
-package com.lightpainting.app;
+package temp;
+/*package com.lightpainting.app;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -42,6 +43,6 @@ public class FavLab {
 		
 	
 }
-
+*/
 
 

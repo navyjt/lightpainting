@@ -7,6 +7,7 @@ import java.io.IOException;
 
 import org.xmlpull.v1.XmlSerializer;
 
+import util.ColorPickerView;
 import android.app.ActionBar.LayoutParams;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -91,11 +92,18 @@ public class FragmentNew extends Fragment {
 
 				int iedit = edittextstring.length();
 
-				speed = time * 23 / iedit;
+				if(iedit > 0)
+				{
+					speed = time * 23 / iedit;
 
-				// TODO 自动生成的方法存根
-				camerasetuptext.setText("相机设置如下：ISO100-200，快门优先，快门速度为"
-						+ String.valueOf(time + iWaitToStop) + "秒");
+					// TODO 自动生成的方法存根
+					camerasetuptext.setText("相机设置如下：ISO100-200，快门优先，快门速度为"
+							+ String.valueOf(time + iWaitToStop) + "秒");
+				}
+				else {
+					Toast.makeText(getActivity().getApplicationContext(),
+							"请输入光绘文字",Toast.LENGTH_SHORT).show();
+				}
 			}
 
 		});

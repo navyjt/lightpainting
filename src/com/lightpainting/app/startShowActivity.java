@@ -1,5 +1,6 @@
 package com.lightpainting.app;
 
+import util.DebugLog;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -14,85 +15,64 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
-public class startShowActivity extends Activity  {
+public class startShowActivity extends Activity {
 
-	private int ifont ;
-	private int ispeed;
+	private int ifont;
 	private MarqueeText showtext;
 	private Vibrator vibrator;
-	
+
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);//使应用程序无标题栏
-		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);// 使应用程序无标题栏
+		this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
 		setContentView(R.layout.activity_startshow);
 		Intent intent = getIntent();
 		String data = intent.getStringExtra("showtext");
 		String fontsize = intent.getStringExtra("fontsize");
-		int ispeed = intent.getIntExtra("speed",150);
+		int ispeed = intent.getIntExtra("speed", 150);
 		int istop = intent.getIntExtra("stop", 1);
-		Log.d("laomaizi", "第二个activity获取延迟时间"+String.valueOf(istop));
-		
-		String allData="";
-		for(int i = 0; i < istop+1 ;i++)
-		{
-			allData +=" ";
-			Log.d("laomaizi", "第二个activity增加空格"+String.valueOf(i));
+		DebugLog.log("第二个activity获取延迟时间" + String.valueOf(istop));
+
+		String allData = "";
+		for (int i = 0; i < istop + 1; i++) {
+			allData += " ";
+			DebugLog.log("第二个activity增加空格" + String.valueOf(i));
 		}
 		allData += data;
 		String color = intent.getStringExtra("color");
 		ifont = Integer.parseInt(fontsize);
-		//ispeed = Integer.parseInt(speed);
 		showtext = (MarqueeText) findViewById(R.id.showtext);
 		showtext.setText(allData);
-		
+
 		showtext.setTextSize(ifont);
 		showtext.setTextColor(Color.parseColor(color));
-		Log.d("laomaizi", "第二个activity启动成功"+allData+"speed is "+String.valueOf(ispeed));
-		start(showtext,ispeed);
+		DebugLog.log("第二个activity启动成功" + allData + "speed is "
+						+ String.valueOf(ispeed));
+		start(showtext, ispeed);
 	}
-	
-	public boolean onTouchEvent(MotionEvent e)  {
-		  // TODO Auto-generated method stub
-			((Activity) this).finish();
-		  // Toast.makeText(this, "DOWN " + e.getAction(), Toast.LENGTH_SHORT).show(); 
-		 return true; 
+
+	public boolean onTouchEvent(MotionEvent e) {
+		((Activity) this).finish();
+		return true;
 	}
-	
 
+	public void start(View v, int i) {
 
-	
-	public void start(View v,int i) {
-		
-		Log.d("laomaizi", "第二个activity 延时启动开始");
-/*		这段代码用来使移动字符延时2秒显示
-		try {
-            Thread.currentThread();
-			Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-		*/
-		
-		Log.d("laomaizi", "第二个activity 延时启动结束");
-		
-		//开始移动字符前振动一次
-		vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);  
-	    long [] pattern = {100,400,100,400};   // 停止 开启 停止 开启   
-	    vibrator.vibrate(pattern,-1);           //重复两次上面的pattern 如果只想震动一次，index设为-1   
-		showtext.startScroll(i); 
-	} 
-	
-	public void stop(View v) { 
-		showtext.stopScroll(); 
-	} 
-	
-	public void startFor0(View v){ 
-		showtext.startFor0(); 
-	} 
+		DebugLog.log("第二个activity 延时启动开始");
+
+		// 开始移动字符前振动一次
+		vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+		long[] pattern = { 100, 400, 100, 400 }; // 停止 开启 停止 开启
+		vibrator.vibrate(pattern, -1); // 重复两次上面的pattern 如果只想震动一次，index设为-1
+		showtext.startScroll(i);
+	}
+
+	public void stop(View v) {
+		showtext.stopScroll();
+	}
+
+	public void startFor0(View v) {
+		showtext.startFor0();
+	}
 }
-
-//android:theme="@style/AppTheme" >
-//android:ellipsize="marquee"
-//android:focusable="true"
-//android:focusableInTouchMode="true"

@@ -1,4 +1,4 @@
-package com.lightpainting.app;
+package util;
 
 import android.content.Context;
 import android.graphics.Canvas;

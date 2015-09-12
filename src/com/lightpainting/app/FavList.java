@@ -3,6 +3,7 @@ package com.lightpainting.app;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.DebugLog;
 import android.R.integer;
 import android.app.ListFragment;
 import android.content.Intent;
@@ -43,7 +44,7 @@ public class FavList extends Fragment {
 			public void onItemClick(AdapterView<?> parent, View view,
 					int position, long id) {
 				FavItem f = adapter.getItem(position);
-				Log.d("Laomaizi", f.getText() + "was Clicked");
+				DebugLog.log(f.getText() + "was Clicked");
 				int speed =50;
 				
 				int iedit = f.getText().length();
@@ -69,16 +70,6 @@ public class FavList extends Fragment {
 			}
 		});
 
-		// ArrayList<FavItem> favlists = null;
-
-		// 这里需要打开xml文件，读取后存入favlists中
-		/*
-		 * XmlPullParser parser =
-		 * XmlPullParserFactory.newInstance().newPullParser();
-		 * parser.setInput(new StringReader("fav.xml"));
-		 * parseItems(favlists,parser);
-		 */
-
 		return contentView;
 
 	}
@@ -95,26 +86,6 @@ public class FavList extends Fragment {
 
 	}
 
-	/*
-	 * static void parseItems(ArrayList<FavItem> favlists,XmlPullParser parser)
-	 * throws XmlPullParserException, IOException { final String XML_PHOTO =
-	 * "LightPainting"; int eventType = parser.next();
-	 * 
-	 * while(eventType != XmlPullParser.END_DOCUMENT){ if(eventType ==
-	 * XmlPullParser.START_TAG&&XML_PHOTO.equals(parser.getName())) { String id
-	 * = parser.getAttributeValue(null,"id"); String text =
-	 * parser.getAttributeValue(null,"text"); String fontsize =
-	 * parser.getAttributeValue(null,"fontsize"); String color =
-	 * parser.getAttributeValue(null,"color"); String continuetime =
-	 * parser.getAttributeValue(null,"time"); String delay =
-	 * parser.getAttributeValue(null,"delay"); FavItem item = new FavItem();
-	 * item.setId(id); item.setText(text); item.setFontsize(fontsize);
-	 * item.setColor(color); item.setTime(continuetime); item.setDelay(delay);
-	 * //favlists.getFavs().add(item); favlists.add(item);
-	 * 
-	 * /*FavLab favlab = null; favlab.getFavs().add(item); } eventType=
-	 * parser.next(); } }
-	 */
 	public void onClick(View v) {
 	}
 

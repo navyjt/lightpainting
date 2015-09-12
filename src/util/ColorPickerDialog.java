@@ -1,4 +1,4 @@
-package com.lightpainting.app;
+package util;
 
 import android.app.Dialog;
 import android.content.Context;

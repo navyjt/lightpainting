@@ -1,5 +1,9 @@
 package com.lightpainting.app;
-
+/**
+ * 
+ * @author 涛
+ * 用于加载启动画面
+ */
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.PixelFormat;
@@ -10,7 +14,7 @@ public class LoadActivity extends Activity {
 
 	 private static final int LOAD_DISPLAY_TIME = 800;
 	     
-	      /** Called when the activity is first created. */
+	      //** Called when the activity is first created.
 	     @Override
 	      public void onCreate(Bundle savedInstanceState) {
 	          super.onCreate(savedInstanceState);
@@ -22,7 +26,7 @@ public class LoadActivity extends Activity {
 	 
 	         new Handler().postDelayed(new Runnable() {
 	             public void run() {
-	                 /* Create an Intent that will start the Main WordPress Activity. */
+	                 // Create an Intent that will start the Main WordPress Activity. 
 	                 Intent mainIntent = new Intent(LoadActivity.this, MainActivity.class);
 	                 LoadActivity.this.startActivity(mainIntent);
 	                 LoadActivity.this.finish();
