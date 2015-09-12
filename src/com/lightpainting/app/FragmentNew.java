@@ -267,15 +267,6 @@ public class FragmentNew extends Fragment {
 
 			private void SaveToFavlist(String data, String fontsize, int speed,
 					String strcolor) throws IOException {
-				/*
-				 * File newXmlFile = new
-				 * File(getActivity().getApplicationContext()+"/fav.xml");
-				 * Log.d(
-				 * "Laomaizi",getActivity().getApplicationContext().toString());
-				 * if(!newXmlFile.exists()){ try { newXmlFile.createNewFile();
-				 * Log.d("Laomaizi","目录不存在，创建之"); } catch (IOException e) { //
-				 * TODO 自动生成的 catch 块 e.printStackTrace(); } }
-				 */
 
 				String local_file = getActivity().getApplicationContext()
 						.getFilesDir().getAbsolutePath()
@@ -290,33 +281,34 @@ public class FragmentNew extends Fragment {
 
 				local_file = newXmlFile.getAbsolutePath() + "/" + "fav.xml";
 				newXmlFile = new File(local_file);
+				XmlSerializer serializer = Xml.newSerializer();
+				FileOutputStream fileos = null;
+				
 				try {
 					if (!newXmlFile.exists()) {
 						newXmlFile.createNewFile();
 						Log.d("Laomaizi", "创建文件成功");
+						fileos = new FileOutputStream(newXmlFile);
+						// //<?xml version="1.0" encoding="UTF-8" standalone="yes"?>创建文件同时写入头xml信息
+
+						serializer.setOutput(fileos, "UTF-8");
+						serializer.startDocument(null, Boolean.valueOf(true));
 					}
+					else{
+						fileos = new FileOutputStream(newXmlFile,true);
+						serializer.setOutput(fileos, "UTF-8");
+					//	serializer.startDocument(null, Boolean.valueOf(true));
+					}
+					
+
+					
+					
 				} catch (IOException ex) {
 					ex.printStackTrace();
 
 				}
-				FileOutputStream fileos = null;
-
+			
 				try {
-					fileos = new FileOutputStream(newXmlFile);
-				} catch (FileNotFoundException e) {
-					// TODO 自动生成的 catch 块
-					e.printStackTrace();
-				}
-
-				XmlSerializer serializer = Xml.newSerializer();
-
-				try {
-
-					// //<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-					serializer.setOutput(fileos, "UTF-8");
-					serializer.startDocument(null, Boolean.valueOf(true));
-
-					// 20150715 此处报错 setfeature
 
 					// serializer.setFeature("http://xmlpull.org/v1/doc/feature.html#indent-output",
 					// true);
@@ -330,9 +322,12 @@ public class FragmentNew extends Fragment {
 					serializer.startTag(null, "fontsize");
 					serializer.text(fontsize);
 					serializer.endTag(null, "fontsize");
-					serializer.startTag(null, "speed");
-					serializer.text(String.valueOf(speed));
-					serializer.endTag(null, "speed");
+					serializer.startTag(null, "time");
+					serializer.text(String.valueOf(time));
+					serializer.endTag(null, "time");
+					serializer.startTag(null, "delay");
+					serializer.text(String.valueOf(iWaitToStop));
+					serializer.endTag(null, "delay");
 					serializer.startTag(null, "color");
 					serializer.text(strcolor);
 					serializer.endTag(null, "color");

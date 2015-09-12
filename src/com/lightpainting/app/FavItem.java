@@ -17,11 +17,16 @@ public class FavItem {
 		this.fontsize = fontSize;
 		this.time = time;
 		this.delay = delay;
-		this.id = id;
+		this.id = null;
 	
 	}
 	
 	
+	public FavItem() {
+		// TODO 自动生成的构造函数存根
+	}
+
+
 	public String getText() {
 		return text;
 	}

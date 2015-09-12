@@ -1,6 +1,7 @@
 package com.lightpainting.app;
 
 import util.DebugLog;
+import util.MarqueeText;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
