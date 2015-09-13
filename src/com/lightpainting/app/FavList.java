@@ -2,24 +2,35 @@ package com.lightpainting.app;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.crypto.spec.DESKeySpec;
+
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlSerializer;
 
 import util.DebugLog;
 import android.R.integer;
+import android.R.raw;
 import android.app.ListFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.util.Xml;
+import android.view.ContextMenu;
+import android.view.ContextMenu.ContextMenuInfo;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.AdapterView.AdapterContextMenuInfo;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemSelectedListener;
@@ -44,6 +55,7 @@ public class FavList extends Fragment {
 		adapter = new FavItemAdapter(getActivity(), R.layout.favitem, favlists);
 		ListView plistview = (ListView) contentView.findViewById(R.id.listview);
 		plistview.setAdapter(adapter);
+		registerForContextMenu(plistview);
 		plistview.setOnItemClickListener(new OnItemClickListener() {
 		//点击某一项条目发生的行为。
 			@Override
@@ -82,9 +94,6 @@ public class FavList extends Fragment {
 
 	private void initFavLists() {
 		//开始解析XML文档
-		
-		
-		
 		try {
 			XmlPullParserTest();
 		} catch (Exception e) {
@@ -94,10 +103,7 @@ public class FavList extends Fragment {
 		
 /*		FavItem pItem1 = new FavItem("First", "#0000FF", "120", "5", "5", "1");
 		favlists.add(pItem1);
-		FavItem pItem2 = new FavItem("Second", "#565900", "80", "5", "5", "2");
-		favlists.add(pItem2);
-		FavItem pItem3 = new FavItem("Third", "#FF5500", "100", "5", "5", "3");
-		favlists.add(pItem3);*/
+*/
 
 	}
 	
@@ -173,38 +179,121 @@ public class FavList extends Fragment {
 		inStream.close();  
 		return favlists; 
                 
-        //设置要解析的目标和读取的编码  
-    /*    xpp.setInput(is, "UTF-8");  
-        
-        List<FavItem> favlists = new ArrayList<FavItem>();  
-        
-        FavItem p = null;  
-        for (int i = xpp.getEventType(); i != XmlPullParser.END_DOCUMENT; i = xpp.next()) {  
-            switch (i) {  
-            case XmlPullParser.START_TAG:  
-                if (xpp.getName() == "text") {  
-                    String str = xpp.getAttributeValue(0);  
-                    p = new FavItem();  
-                    p.setId(Integer.parseInt(str));  
-                } else if (xpp.getName().equals("name")) {  
-                    p.setName(xpp.nextText());  
-                } else if (xpp.getName().equals("age")) {  
-                    p.setAge(Integer.parseInt(xpp.nextText()));  
-                }  
-                break;  
-            case XmlPullParser.END_TAG:  
-                //遍历Xml文件中一个对象，直到解析到这个对象的  
-                if (xpp.getName().equals("person")) {  
-                	favlists.add(p);  
-                }  
-                break;  
-            }  
-        }  
-        return favlists;  */
-         
+            
     }  
 
 	public void onClick(View v) {
 	}
+
+	@Override
+	public boolean onContextItemSelected(MenuItem item) {
+		//使用 adaptercontextmenuinfo来获取菜单信息
+		
+		String local_file = getActivity().getApplicationContext()
+				.getFilesDir().getAbsolutePath()
+				+ "/fav/"+ "fav.xml";
+		File newXmlFile = new File(local_file);
+		
+		XmlSerializer serializer = Xml.newSerializer();
+		FileOutputStream fileos = null;
+		
+		AdapterContextMenuInfo info = (AdapterContextMenuInfo)item.getMenuInfo();
+		int position = info.position;
+		FavItem favItem = favlists.get(position);
+
+		
+		switch (item.getItemId()) {
+		case R.id.delete_item:
+			favlists.remove(position);
+			adapter.notifyDataSetChanged();
+			Toast.makeText(getActivity(), "点击1", 3000).show();
+				
+			//这里需要将favlists全部封装进去
+			
+			try {
+				fileos = new FileOutputStream(newXmlFile);
+				serializer.setOutput(fileos, "UTF-8");
+				serializer.startDocument(null, Boolean.valueOf(true));
+				
+				for(FavItem f:favlists){
+					serializer.startTag(null, "lightpainting");
+					serializer.attribute(null, "xmlns",
+							"http://www.laomaizi.com");
+					serializer.startTag(null, "text");
+					serializer.text(f.getText());
+					serializer.endTag(null, "text");
+					serializer.startTag(null, "fontsize");
+					serializer.text(f.getFontsize());
+					serializer.endTag(null, "fontsize");
+					serializer.startTag(null, "time");
+					serializer.text(f.getTime());
+					serializer.endTag(null, "time");
+					serializer.startTag(null, "delay");
+					serializer.text(f.getDelay());
+					serializer.endTag(null, "delay");
+					serializer.startTag(null, "color");
+					serializer.text(f.getColor());
+					serializer.endTag(null, "color");
+					serializer.endTag(null, "lightpainting");
+			}
+				
+				
+				serializer.endDocument();
+				serializer.flush();
+				DebugLog.log("删除列表内容，写入空文件完成");
+				fileos.close();
+				
+			} catch (FileNotFoundException e1) {
+				// TODO 自动生成的 catch 块
+				e1.printStackTrace();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+
+			
+			
+			break;
+
+		case R.id.delete_item_all:
+		
+			try {
+				fileos = new FileOutputStream(newXmlFile);
+				serializer.setOutput(fileos, "UTF-8");
+				serializer.startDocument(null, Boolean.valueOf(true));
+				serializer.endDocument();
+				serializer.flush();
+				DebugLog.log("删除列表内容，写入空文件完成");
+				fileos.close();
+					
+				favlists.removeAll(favlists);
+				adapter.notifyDataSetChanged();
+				
+			} catch (FileNotFoundException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO 自动生成的 catch 块
+				e.printStackTrace();
+			}
+	
+			
+			
+			break;
+		}
+		
+		
+		return super.onContextItemSelected(item);
+	}
+
+	@Override
+	public void onCreateContextMenu(ContextMenu menu, View v,
+			ContextMenuInfo menuInfo) {
+		getActivity().getMenuInflater().inflate(R.menu.fav_list_item_context, menu);
+		
+		//super.onCreateContextMenu(menu, v, menuInfo);
+	}
+	
+	
 
 }

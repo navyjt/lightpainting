@@ -22,8 +22,8 @@ public class FavItemAdapter extends ArrayAdapter<FavItem> {
 		
 		FavItem favItem = getItem(position);
 		View view = LayoutInflater.from(getContext()).inflate(resourceId, null);
-		TextView fruitName = (TextView) view.findViewById(R.id.id);
-		fruitName.setText(favItem.getText());
+		TextView tvTextView = (TextView) view.findViewById(R.id.id);
+		tvTextView.setText(favItem.getText());
 		return view;
 	}
 
