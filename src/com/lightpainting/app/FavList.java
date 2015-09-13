@@ -206,7 +206,6 @@ public class FavList extends Fragment {
 		case R.id.delete_item:
 			favlists.remove(position);
 			adapter.notifyDataSetChanged();
-			Toast.makeText(getActivity(), "点击1", 3000).show();
 				
 			//这里需要将favlists全部封装进去
 			
