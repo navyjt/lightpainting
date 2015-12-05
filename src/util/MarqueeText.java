@@ -33,7 +33,7 @@ public class MarqueeText extends TextView implements Runnable {
 
 	public MarqueeText(Context context, AttributeSet attrs, int defStyleAttr,
 			int defStyleRes) {
-		super(context, attrs, defStyleAttr, defStyleRes);
+		super(context, attrs, defStyleAttr);
 		// TODO 自动生成的构造函数存根
 	}
 
